@@ -1,0 +1,38 @@
+###############################################################################
+# Access Control
+#
+
+<%
+if not @allowed_hosts.empty?
+    @allowed_hosts.each do |host|
+-%>
+rocommunity public <%= host %>
+<%
+    end
+else
+-%>
+rocommunity public
+<% end -%>
+
+###############################################################################
+# System contact information
+#
+
+syslocation <%= @syslocation %>
+syscontact <%= @syscontact %>
+
+
+###############################################################################
+# Logging
+#
+
+# We do not want annoying "Connection from UDP: " messages in syslog.
+# If the following option is commented out, snmpd will print each incoming
+# connection, which can be useful for debugging.
+
+dontLogTCPWrappersConnects yes
+
+###############################################################################
+# Extend
+#
+
