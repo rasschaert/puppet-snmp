@@ -26,4 +26,12 @@ class snmp::server (
     content => template('snmp/snmpd.conf.header.erb'),
     order   => '01',
   }
+
+  firewall { '100 allow snmp':
+    chain  => 'INPUT',
+    state  => ['NEW'],
+    dport  => '161',
+    proto  => 'udp',
+    action => 'accept',
+  }
 }
