@@ -7,11 +7,13 @@ if not @allowed_hosts.empty?
     @allowed_hosts.each do |host|
 -%>
 rocommunity public <%= host %>
+rwcommunity private <%= host %>
 <%
     end
 else
 -%>
 rocommunity public
+rwcommunity private
 <% end -%>
 
 ###############################################################################

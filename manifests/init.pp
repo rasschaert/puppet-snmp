@@ -2,6 +2,6 @@
 #
 #
 class snmp {
-  include snmp::server
-  include snmp::client
+  contain snmp::server
+  contain snmp::client
 }
