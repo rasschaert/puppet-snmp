@@ -10,12 +10,6 @@ class snmp::server (
     ensure => installed,
   }
 
-  service { 'snmpd':
-    ensure  => running,
-    enable  => true,
-    require => Package['net-snmp'],
-  }
-
   concat { '/etc/snmp/snmpd.conf':
     ensure => present,
     notify => Service['snmpd'],
@@ -27,10 +21,27 @@ class snmp::server (
     order   => '01',
   }
 
-  firewall { '100 allow snmp':
+  service { 'snmpd':
+    ensure  => running,
+    enable  => true,
+    require => [
+                  Package['net-snmp'],
+                  Concat['/etc/snmp/snmpd.conf'],
+                ],
+  }
+
+  firewall { '100 allow snmp requests':
     chain  => 'INPUT',
     state  => ['NEW'],
     dport  => '161',
+    proto  => 'udp',
+    action => 'accept',
+  }
+
+  firewall { '100 allow snmp notifications':
+    chain  => 'INPUT',
+    state  => ['NEW'],
+    dport  => '162',
     proto  => 'udp',
     action => 'accept',
   }
